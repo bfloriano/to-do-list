@@ -42,6 +42,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   emptyTasksLabel: {
+    marginTop: 80,
     alignItems: "center",
   },
   taskLabelBold: {
@@ -51,8 +52,5 @@ export const styles = StyleSheet.create({
   },
   taskLabel: {
     color: "#808080",
-  },
-  taskList: {
-    marginTop: 80,
   },
 });

@@ -1,6 +1,7 @@
 import { FlatList, Image, Pressable, TextInput, View, Text, Alert } from "react-native";
 import { styles } from "./styles";
 import { Task } from "../../components/Task";
+import { Progress } from "../../components/Progress";
 import { useState } from "react";
 
 type Item = {
@@ -60,9 +61,12 @@ export function Home () {
                 </Pressable>
             </View>
             <View style={styles.bottomHome}>
+            <Progress 
+                created={taskList.length}
+                completed={taskList.filter(item => item.checked).length}    
+            />
             <FlatList
-                style={styles.taskList}
-                data={taskList}
+                data={taskList.sort( (a, b) => Number(a.checked) - Number(b.checked))}
                 keyExtractor={item => item?.id?.toString()}
                 renderItem={({ item }) => ( 
                     <Task 
@@ -87,7 +91,6 @@ export function Home () {
                     </View>
                 )}
             />
-            
             </View>
         </View>
     )

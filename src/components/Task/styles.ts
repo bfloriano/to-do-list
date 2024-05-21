@@ -11,8 +11,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 10,
     marginVertical: 4,
-    //borderColor: "red",
-    //borderWidth: 1,
   },
   text: {
     color: "#f2f2f2",

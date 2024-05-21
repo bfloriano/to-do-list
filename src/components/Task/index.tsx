@@ -1,6 +1,5 @@
 import { TextInput, View, TouchableOpacity, Text, Image, Pressable } from "react-native";
 import { styles } from "./styles"
-import { useState } from "react";
 
 type Props = {
     text: string;
@@ -25,9 +24,9 @@ export function Task (props: Props) {
                 { props.text }
             </Text>
             <Pressable 
-                onPress={ props.onRemove}
+                onPress={ props.onRemove} 
             >
-                <Image source={require('../../../assets/trash.png')} />
+                <Image source={require('../../../assets/trash.png')} />     
             </Pressable>
         </View>
     )
