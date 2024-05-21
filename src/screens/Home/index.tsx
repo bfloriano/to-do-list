@@ -3,27 +3,42 @@ import { styles } from "./styles";
 import { Task } from "../../components/Task";
 import { useState } from "react";
 
+type Item = {
+    id: number;
+    name: string;
+    checked: boolean;
+}
+
 export function Home () {
 
-    const [taskList, setTaskList] = useState<string[]>([])
-    const [newTask, setNewTask] = useState('')
+    const [taskList, setTaskList] = useState<Item[]>([]) 
+    const [newTask, setNewTask] = useState<Item>()
+    
     
     function handleTaskAdd() {
+        if(!newTask?.name) return Alert.alert("Error", "Enter a valid task")
+        
         setTaskList(prevState => [...prevState, newTask])
-        setNewTask('')
+        setNewTask({name: ''} as  Item)
     }
 
-    function handleTaskRemove(task: string) {
-        Alert.alert("Remover tarefa", `Tem certeza que deseja remover a tarefa ${task}?`, [
+    function handleTaskRemove(task: Item) {
+        Alert.alert("Remover tarefa", `Tem certeza que deseja remover a tarefa ${task.name}?`, [
             {
               text:  "Sim",
-              onPress: () => setTaskList(prevState => prevState.filter(taskName => taskName !== task))
+              onPress: () => setTaskList(prevState => prevState.filter(taskItem => taskItem.id !== task.id))
             },
             {
               text: "Não",
               style: 'cancel'
             }
           ])
+    }
+
+    function handleMarkAsDone(task: Item) {
+        setTaskList(prevState => prevState.map(
+            item => item.id === task.id ? {...item, checked: !item.checked} : item
+        ))
     }
 
     return (
@@ -34,8 +49,8 @@ export function Home () {
                     style={styles.input} 
                     placeholder='Adicione uma nova tarefa' 
                     placeholderTextColor="#808080" 
-                    onChangeText={text =>  setNewTask(text)}
-                    value={newTask}
+                    onChangeText={text => setNewTask({id: Math.random(), name: text, checked: false})}
+                    value={newTask?.name}
                 />
                 <Pressable 
                     style={styles.buttom}
@@ -48,12 +63,14 @@ export function Home () {
             <FlatList
                 style={styles.taskList}
                 data={taskList}
-                keyExtractor={item => item}
+                keyExtractor={item => item?.id?.toString()}
                 renderItem={({ item }) => ( 
                     <Task 
-                        key={item}
-                        text={item}
+                        key={item.id}
+                        text={item.name}
+                        checked={item.checked}
                         onRemove={() => handleTaskRemove(item)}
+                        onCheck={() => handleMarkAsDone(item)}
         
                      />
                 )}

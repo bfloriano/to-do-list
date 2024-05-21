@@ -4,16 +4,27 @@ import { useState } from "react";
 
 type Props = {
     text: string;
+    checked: boolean;
     onRemove: () => void;
+    onCheck: () => void;
 }
 
 export function Task (props: Props) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>{ props.text }</Text>
             <Pressable 
-                style={styles.delete}
+                onPress={props.onCheck}
+            > 
+                {props.checked ? 
+                    <Image source={require('../../../assets/Checked.png')} /> : 
+                    <Image source={require('../../../assets/Vector.png')} />
+                }
+            </Pressable>
+            <Text style={props.checked ? styles.checked : styles.text}>
+                { props.text }
+            </Text>
+            <Pressable 
                 onPress={ props.onRemove}
             >
                 <Image source={require('../../../assets/trash.png')} />
